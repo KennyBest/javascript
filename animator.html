@@ -1,0 +1,97 @@
+<html>
+<style>
+    #container {
+        width: 400px;
+        height: 400px;
+        position: relative;
+        background: yellow;
+    }
+
+    #animate {
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        background: red;
+    }
+</style>
+
+<head>
+    <title>Animation</title>
+</head>
+
+<body>
+    <h1>JavaScript Animation</h1>
+
+    <div style="flex-direction: column; ">
+        <button id="btn1" onclick="move()">clickme</button>
+        <button id="btn2" onclick="testXMLHttp()">check XMLHttpRequest</button>
+    </div>
+    <div>
+      <text id="cnt" style="color: red;">服务器data</text>
+    </div>
+    <div id="container">
+        <div id="animate"></div>
+    </div>
+</body>
+
+<script>
+
+var ele = document.getElementById("btn1");
+ele.addEventListener("click", testListener);
+
+function move() {
+  console.log("excute move code block");
+  var elem = document.getElementById("animate");
+  var pos = 0;
+  var id = setInterval(frame, 5);
+
+  // 获取当前window的宽和高
+  var width = window.innerWidth;
+  var height = window.innerHeight;
+
+  // console.log('width: ' + width + ',' + 'height: ' + height);
+
+  // alert('width: ' + width + ',' + 'height: ' + height + 'screen width: ' + screen.width + ',' + 'height: ' + screen.height);
+
+  function frame() {
+    if (pos == 350) {
+      clearInterval(id);
+    } else {
+      pos++;
+      elem.style.top = pos + 'px';
+      elem.style.left = pos + 'px';
+    }
+  }
+}
+
+function testListener() {
+  console.log("listener user has clicked button");
+}
+
+// 检测XMLHttpRequest是否可用
+function testXMLHttp() {
+  var xhttp;
+  if (window.XMLHttpRequest) {
+    console.log("can use XMLHttpRequest");
+    xhttp = new XMLHttpRequest();
+  } else {
+    console.log("old browser version");
+    xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+
+  // 监听状态变化
+  xhttp.onreadystatechange = function() {
+    if (this.readState == 4 && this.status == 200) {
+      document.getElementById("cnt").innerHTML = this.responseText;
+    } else {
+      alet("request failure" + this.status);
+    }
+  };
+  // 请求
+  xhttp.open("GET", "test.text", true);
+  xhttp.send();
+}
+
+</script>
+
+</html>
